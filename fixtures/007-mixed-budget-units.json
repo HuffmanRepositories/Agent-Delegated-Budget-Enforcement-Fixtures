@@ -1,0 +1,54 @@
+{
+  "id": "DBEF-007",
+  "title": "Token and money limits are mixed",
+  "category": "unit-scope",
+  "status": "draft",
+  "synthetic": true,
+  "description": "A parent has separate limits for token count and fictional credit units. Child allocations are mistakenly compared as if units were interchangeable.",
+  "budget": {
+    "limits": [
+      {
+        "unit": "token",
+        "amount": 10000,
+        "scope": "parent-tree"
+      },
+      {
+        "unit": "fictional-credit",
+        "amount": 20,
+        "scope": "parent-tree"
+      }
+    ],
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "allocate",
+      "actor_id": "parent",
+      "target_id": "child-a",
+      "amount": 500,
+      "unit": "token"
+    },
+    {
+      "type": "usage_commit",
+      "actor_id": "child-a",
+      "amount": 3,
+      "unit": "fictional-credit"
+    }
+  ],
+  "expected_invariants": [
+    "Each limit is evaluated in its own unit; conversion requires explicit rules."
+  ],
+  "failure_mode": "Token amount is compared directly against fictional-credit units.",
+  "notes": "Illustrative values; no conversion implied."
+}
