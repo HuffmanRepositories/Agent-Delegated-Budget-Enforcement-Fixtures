@@ -35,7 +35,11 @@ python scripts/validate_fixtures.py
 python scripts/validate_semantics.py
 ```
 
-## Experimental budget-ledger harness\n\nThe [synthetic SQLite ledger](docs/synthetic-budget-ledger.md) tests concurrent reservations, hierarchical caps, idempotent reservation, settlement, release, revocation, and over-limit actual usage. It is a local model—not a production budget controller or provider billing integration.\n\n## Fixture format
+## Experimental budget-ledger harness
+
+The [synthetic SQLite ledger](docs/synthetic-budget-ledger.md) tests concurrent reservations, hierarchical caps, idempotent reservation, settlement, release, revocation, and over-limit actual usage. It is a local model—not a production budget controller or provider billing integration.
+
+## Fixture format
 
 See [docs/fixture-format.md](docs/fixture-format.md), [template](docs/fixture-template.json), and [fixture status](docs/fixture-status.md).
 
