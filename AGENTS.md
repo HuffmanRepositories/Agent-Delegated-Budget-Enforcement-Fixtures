@@ -1,5 +1,8 @@
 # Agent Guidance
 
+For cross-repository tasks, follow the [Huffman Agent Handshake](https://github.com/HuffmanRepositories/Open-Source-AI-Independence/blob/main/AGENT-HANDSHAKE.md). It does not grant permissions or replace explicit human authorization.
+
+
 These instructions apply to P14's synthetic delegated-budget fixture corpus and do not override system, platform, user, or safety requirements.
 
 ## Project boundary
