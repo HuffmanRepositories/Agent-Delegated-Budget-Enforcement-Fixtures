@@ -1,5 +1,8 @@
 # Agent Delegated Budget Enforcement Fixtures
 
+[Start here](START-HERE.md) · [AI agent guidance](AGENTS.md)
+
+
 An implementation-neutral collection of **synthetic JSON fixtures** for reviewing hierarchical budget allocation and enforcement when agents delegate work to child agents.
 
 The focus is budget **reservation and enforcement semantics**: concurrent child allocations, nested limits, refunds/releases, revocation, and parent-level aggregate constraints. This repository does not define a budget protocol or implement a budget manager.
