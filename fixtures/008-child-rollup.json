@@ -1,0 +1,49 @@
+{
+  "id": "DBEF-008",
+  "title": "Child consumption omitted or duplicated in parent aggregation",
+  "category": "roll-up",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Nested child B commits usage under child A. Root aggregation receives either no event or duplicate propagated usage.",
+  "budget": {
+    "unit": "fictional-credit",
+    "limit": 100,
+    "scope": "root-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "root",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "root"
+    },
+    {
+      "id": "child-b",
+      "role": "child",
+      "parent_id": "child-a"
+    }
+  ],
+  "events": [
+    {
+      "type": "usage_commit",
+      "actor_id": "child-b",
+      "amount": 12
+    },
+    {
+      "type": "aggregate",
+      "actor_id": "child-a",
+      "target_id": "root",
+      "amount": 12,
+      "delivery": "missing-or-duplicate"
+    }
+  ],
+  "expected_invariants": [
+    "Root accounting reflects underlying child consumption once under the selected aggregation model."
+  ],
+  "failure_mode": "Root misses child usage or records the same 12 units twice.",
+  "notes": "This is not a delivery guarantee or exactly-once protocol."
+}
