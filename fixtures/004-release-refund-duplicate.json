@@ -1,0 +1,48 @@
+{
+  "id": "DBEF-004",
+  "title": "Reservation release or refund is duplicated",
+  "category": "release-refund",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Child reserves 25 units and reports 10 actual units. Two duplicate settlement notifications attempt to release 15 units.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 100,
+    "scope": "parent-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "reserve",
+      "actor_id": "child-a",
+      "amount": 25
+    },
+    {
+      "type": "usage_commit",
+      "actor_id": "child-a",
+      "amount": 10
+    },
+    {
+      "type": "release",
+      "actor_id": "child-a",
+      "amount": 15,
+      "delivery": "duplicate"
+    }
+  ],
+  "expected_invariants": [
+    "A reservation's releasable remainder must not be credited more than once."
+  ],
+  "failure_mode": "Repeated release notifications inflate available budget.",
+  "notes": "Touches duplicate event handling only as budget settlement; generic retry behavior is out of scope."
+}
