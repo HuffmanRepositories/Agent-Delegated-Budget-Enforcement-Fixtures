@@ -57,7 +57,7 @@ def main():
             if not path.name.startswith(fid):
                 errors.append(f"{path.name}: filename should start with id {fid}")
     if errors:
-        print("\\n".join(errors), file=sys.stderr)
+        print("\n".join(errors), file=sys.stderr)
         return 1
     print(f"Validated {len(files)} synthetic draft fixtures (structure only).")
     return 0
