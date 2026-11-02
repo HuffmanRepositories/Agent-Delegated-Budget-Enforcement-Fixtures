@@ -55,8 +55,8 @@ class BudgetLedger:
         return chain
 
     def reserve(self, account_id, key, amount):
-        if amount <= 0:
-            raise ValueError("reservation amount must be positive")
+        if type(amount) is not int or amount <= 0:
+            raise ValueError("reservation amount must be a positive integer")
         with self._connect() as db:
             db.execute("BEGIN IMMEDIATE")
             existing=db.execute("SELECT amount,status FROM reservations WHERE account_id=? AND idem_key=?",
