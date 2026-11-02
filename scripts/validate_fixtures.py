@@ -54,8 +54,9 @@ def main():
             if fid in seen:
                 errors.append(f"{path.name}: duplicate fixture id {fid}")
             seen.add(fid)
-            if not path.name.startswith(fid):
-                errors.append(f"{path.name}: filename should start with id {fid}")
+            expected_prefix = fid.split("-", 1)[1] if "-" in fid else fid
+            if not path.name.startswith(expected_prefix):
+                errors.append(f"{path.name}: filename should start with {expected_prefix}")
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
