@@ -39,6 +39,15 @@ python scripts/validate_semantics.py
 
 The [synthetic SQLite ledger](docs/synthetic-budget-ledger.md) tests concurrent reservations, hierarchical caps, idempotent reservation, settlement, release, revocation, and over-limit actual usage. It is a local model—not a production budget controller or provider billing integration.
 
+## Companion projects (when a scenario crosses boundaries)
+
+- [P13 — Delegation Scope Boundary Fixtures](https://github.com/HuffmanRepositories/Agent-Delegation-Scope-Boundary-Fixtures) for who is authorized to allocate or spend budget.
+- [P12 — Tool Retry & Idempotency Fixtures](https://github.com/HuffmanRepositories/Agent-Tool-Retry-Idempotency-Fixtures) for idempotent reservation/release/settlement attempts and uncertain tool outcomes.
+- [P15 — User-Controlled Stop Reference Model](https://github.com/HuffmanRepositories/Huffman-Ecosystem-Root/tree/main/p15) for stop/cancellation and budget-reservation containment.
+- [OARMI — Run Metrics Interop](https://github.com/HuffmanRepositories/Open-Agent-Run-Metrics-Interop) for usage representation, distinct from budget enforcement.
+
+These are companion research/fixture projects, not production dependencies. Expand only the parts required by the scenario; this repo does not define authority, retry policy, stop control, or usage measurement.
+
 ## Fixture format
 
 See [docs/fixture-format.md](docs/fixture-format.md), [template](docs/fixture-template.json), and [fixture status](docs/fixture-status.md).
