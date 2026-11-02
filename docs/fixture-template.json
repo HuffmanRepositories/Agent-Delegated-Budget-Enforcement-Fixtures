@@ -1,0 +1,37 @@
+{
+  "id": "example-budget-case",
+  "title": "Short descriptive title",
+  "category": "reservation",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Synthetic scenario context.",
+  "budget": {
+    "unit": "USD-equivalent",
+    "limit": 100,
+    "scope": "parent-tree",
+    "window": "example-window"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "reserve",
+      "actor_id": "child-a",
+      "amount": 30
+    }
+  ],
+  "expected_invariants": [
+    "The parent aggregate allocation remains within its stated limit."
+  ],
+  "failure_mode": "Illustrative failure if the invariant is violated.",
+  "notes": "Draft; units are illustrative."
+}
