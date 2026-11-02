@@ -57,6 +57,19 @@ class BudgetLedgerTests(unittest.TestCase):
         self.ledger.revoke("childA")
         with self.assertRaises(BudgetConflict): self.ledger.reserve("grandchild","k",5)
 
+    def test_budget_values_reject_floats_and_booleans(self):
+        with self.assertRaises(ValueError):
+            self.ledger.create_account("bad-limit", None, 10.5)
+        with self.assertRaises(ValueError):
+            self.ledger.reserve("childA", "fractional", 1.5)
+        with self.assertRaises(ValueError):
+            self.ledger.reserve("childA", "boolean", True)
+        self.ledger.reserve("childA", "settle-type", 5)
+        with self.assertRaises(ValueError):
+            self.ledger.settle("childA", "settle-type", 2.5)
+        with self.assertRaises(ValueError):
+            self.ledger.settle("childA", "settle-type", True)
+
     def test_actual_charge_cannot_exceed_parent_limit(self):
         self.ledger.reserve("childA","k",60)
         self.ledger.reserve("childB","k",30)

@@ -34,8 +34,8 @@ class BudgetLedger:
         return db
 
     def create_account(self, account_id, parent_id, limit_units):
-        if limit_units <= 0:
-            raise ValueError("limit must be positive")
+        if type(limit_units) is not int or limit_units <= 0:
+            raise ValueError("limit must be a positive integer")
         with self._connect() as db:
             db.execute("INSERT INTO accounts(account_id,parent_id,limit_units) VALUES(?,?,?)",
                        (account_id,parent_id,limit_units))
@@ -55,8 +55,8 @@ class BudgetLedger:
         return chain
 
     def reserve(self, account_id, key, amount):
-        if amount <= 0:
-            raise ValueError("reservation amount must be positive")
+        if type(amount) is not int or amount <= 0:
+            raise ValueError("reservation amount must be a positive integer")
         with self._connect() as db:
             db.execute("BEGIN IMMEDIATE")
             existing=db.execute("SELECT amount,status FROM reservations WHERE account_id=? AND idem_key=?",
@@ -80,8 +80,8 @@ class BudgetLedger:
             return "reserved"
 
     def settle(self, account_id, key, actual):
-        if actual < 0:
-            raise ValueError("actual usage cannot be negative")
+        if type(actual) is not int or actual < 0:
+            raise ValueError("actual usage must be a non-negative integer")
         with self._connect() as db:
             db.execute("BEGIN IMMEDIATE")
             reservation=db.execute("SELECT amount,status,actual FROM reservations WHERE account_id=? AND idem_key=?",

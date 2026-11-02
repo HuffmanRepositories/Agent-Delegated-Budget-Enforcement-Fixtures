@@ -9,7 +9,7 @@ python scripts/validate_fixtures.py
 python scripts/validate_semantics.py
 ```
 
-Tests cover concurrent sibling reservation, idempotent reserve/replay, nested account cap, actual-usage settlement, release/refund of reserved capacity, revoked ancestor denial, and actual usage exceeding remaining budget.
+Tests cover concurrent sibling reservation, idempotent reserve/replay, nested account cap, actual-usage settlement, release/refund of reserved capacity, revoked ancestor denial, and actual usage exceeding remaining budget. The test ledger enforces integer-only units (and rejects bool/float values) to avoid binary floating-point and Python bool/int ambiguity.
 
 ## Limits
 This is a local synthetic ledger—not production billing, provider usage metering, or proof of runtime enforcement. It does not test distributed multi-host transactions, external provider calls, price/unit conversion, time-window rollover, delayed usage after cancellation, ledger replication, crash recovery beyond SQLite transaction rollback, or account authentication. Monetary precision should use integer minor units or explicit decimal semantics, not binary floats. Unit/currency mismatches must be rejected by a real system.
