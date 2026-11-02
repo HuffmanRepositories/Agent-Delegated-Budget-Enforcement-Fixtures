@@ -34,8 +34,8 @@ class BudgetLedger:
         return db
 
     def create_account(self, account_id, parent_id, limit_units):
-        if limit_units <= 0:
-            raise ValueError("limit must be positive")
+        if type(limit_units) is not int or limit_units <= 0:
+            raise ValueError("limit must be a positive integer")
         with self._connect() as db:
             db.execute("INSERT INTO accounts(account_id,parent_id,limit_units) VALUES(?,?,?)",
                        (account_id,parent_id,limit_units))
