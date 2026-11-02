@@ -1,0 +1,49 @@
+{
+  "id": "DBEF-006",
+  "title": "Concurrent budget updates lose aggregate usage",
+  "category": "accounting-race",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Two children each commit 20 units concurrently against a shared parent ledger; stale reads cause one update to overwrite the other.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 100,
+    "scope": "parent-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    },
+    {
+      "id": "child-b",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "usage_commit",
+      "actor_id": "child-a",
+      "amount": 20,
+      "concurrency_group": "commit-race"
+    },
+    {
+      "type": "usage_commit",
+      "actor_id": "child-b",
+      "amount": 20,
+      "concurrency_group": "commit-race"
+    }
+  ],
+  "expected_invariants": [
+    "Aggregate committed usage reflects both successful child commits and is not lost through concurrent updates."
+  ],
+  "failure_mode": "Parent records only 20 committed units although 40 were consumed.",
+  "notes": "This fixture does not prescribe database isolation or ledger architecture."
+}
