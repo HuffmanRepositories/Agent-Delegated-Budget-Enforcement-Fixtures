@@ -1,0 +1,48 @@
+{
+  "id": "DBEF-011",
+  "title": "Delegated grant revoked while reservation is pending",
+  "category": "revocation-exhaustion",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Parent revokes child A's budget authority after a reservation request is initiated but before it is committed.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 75,
+    "scope": "parent-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "reserve_request",
+      "actor_id": "child-a",
+      "amount": 15
+    },
+    {
+      "type": "revoke",
+      "actor_id": "parent",
+      "target_id": "child-a"
+    },
+    {
+      "type": "reserve_result",
+      "actor_id": "child-a",
+      "amount": 15,
+      "arrival": "after-revoke"
+    }
+  ],
+  "expected_invariants": [
+    "The system defines whether pending reservation requests are rejected, honored, or reconciled after revocation; the result must not be ambiguous."
+  ],
+  "failure_mode": "Revoked child receives new usable capacity without a documented revocation race policy.",
+  "notes": "Revocation ordering and in-flight policy require reviewer attention."
+}
