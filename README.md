@@ -1,6 +1,6 @@
 # Agent Delegated Budget Enforcement Fixtures
 
-[Start here](START-HERE.md) · [AI agent guidance](AGENTS.md)
+[Start here](START-HERE.md) · [Whitepaper](WHITEPAPER.md) · [AI agent guidance](AGENTS.md)
 
 
 An implementation-neutral collection of **synthetic JSON fixtures** for reviewing hierarchical budget allocation and enforcement when agents delegate work to child agents.
