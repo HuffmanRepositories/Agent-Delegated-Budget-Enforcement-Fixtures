@@ -11,6 +11,9 @@ This repository reviews hierarchical reservation and budget-enforcement scenario
 ## Before acting
 Read [START-HERE.md](START-HERE.md), [docs/fixture-format.md](docs/fixture-format.md), [docs/taxonomy.md](docs/taxonomy.md), fixture status, and the review checklist.
 
+## Companion routing
+For cross-project cases, consult [P13 delegation scope](https://github.com/HuffmanRepositories/Agent-Delegation-Scope-Boundary-Fixtures) for spend authority, [P12 retry/idempotency](https://github.com/HuffmanRepositories/Agent-Tool-Retry-Idempotency-Fixtures) for duplicate reservation/settlement handling, [P15 stop semantics](https://github.com/HuffmanRepositories/Huffman-Ecosystem-Root/tree/main/p15) for cancellation/containment, and [OARMI](https://github.com/HuffmanRepositories/Open-Agent-Run-Metrics-Interop) for usage measurement. These are separate synthetic or interoperability projects; do not infer a production integration.
+
 ## Safety and semantics
 - Use synthetic, offline cases only.
 - Never add real billing records, credentials, customer data, or production budget configuration.
