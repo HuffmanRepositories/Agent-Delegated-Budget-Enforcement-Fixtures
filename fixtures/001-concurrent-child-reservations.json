@@ -1,0 +1,49 @@
+{
+  "id": "DBEF-001",
+  "title": "Concurrent children reserve shared remaining capacity",
+  "category": "concurrent-reservation",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Parent has 100 units available. Two children concurrently request 70 each before either reservation is visible to the other.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 100,
+    "scope": "parent-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    },
+    {
+      "id": "child-b",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "reserve",
+      "actor_id": "child-a",
+      "amount": 70,
+      "concurrency_group": "race-1"
+    },
+    {
+      "type": "reserve",
+      "actor_id": "child-b",
+      "amount": 70,
+      "concurrency_group": "race-1"
+    }
+  ],
+  "expected_invariants": [
+    "Combined accepted reservations must not exceed parent capacity, or the system must explicitly mark an overcommit policy."
+  ],
+  "failure_mode": "Both children see the same 100 available units and both reservations are accepted, committing 140.",
+  "notes": "Illustrative units; draft review fixture."
+}
