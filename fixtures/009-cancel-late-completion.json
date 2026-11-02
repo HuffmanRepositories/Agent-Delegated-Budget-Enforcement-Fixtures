@@ -1,0 +1,54 @@
+{
+  "id": "DBEF-009",
+  "title": "Cancellation races with late child completion",
+  "category": "lifecycle",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Child reserves 20 units. Parent cancels the task and releases capacity, but the child later reports 8 units of actual work.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 60,
+    "scope": "parent-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "reserve",
+      "actor_id": "child-a",
+      "amount": 20
+    },
+    {
+      "type": "cancel",
+      "actor_id": "parent",
+      "target_id": "child-a"
+    },
+    {
+      "type": "release",
+      "actor_id": "parent",
+      "target_id": "child-a",
+      "amount": 20
+    },
+    {
+      "type": "usage_commit",
+      "actor_id": "child-a",
+      "amount": 8,
+      "arrival": "late"
+    }
+  ],
+  "expected_invariants": [
+    "Late usage and cancellation/release are reconciled without silently making budget availability inconsistent."
+  ],
+  "failure_mode": "Released reservation is reused while late usage is also committed, exceeding capacity.",
+  "notes": "Cancellation semantics must be explicitly defined."
+}
