@@ -14,7 +14,9 @@ def validate(path: Path):
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return [f"{path.name}: invalid JSON: {exc}"]
-    missing = REQUIRED - data.keys() if isinstance(data, dict) else REQUIRED
+    if not isinstance(data, dict):
+        return [f"{path.name}: top-level JSON must be an object"]
+    missing = REQUIRED - data.keys()
     if missing:
         errors.append(f"{path.name}: missing required keys: {', '.join(sorted(missing))}")
         return errors
@@ -39,7 +41,21 @@ def main():
     if not files:
         print("No fixtures found", file=sys.stderr)
         return 1
-    errors = [error for path in files for error in validate(path)]
+    seen = set()
+    errors = []
+    for path in files:
+        errors.extend(validate(path))
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(data, dict) and isinstance(data.get("id"), str):
+            fid = data["id"]
+            if fid in seen:
+                errors.append(f"{path.name}: duplicate fixture id {fid}")
+            seen.add(fid)
+            if not path.name.startswith(fid):
+                errors.append(f"{path.name}: filename should start with id {fid}")
     if errors:
         print("\\n".join(errors), file=sys.stderr)
         return 1
