@@ -1,0 +1,50 @@
+{
+  "id": "DBEF-002",
+  "title": "Nested child expands beyond parent allocation",
+  "category": "nested-allocation",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Parent grants child A 40 units from a 100-unit root budget. Child A attempts to delegate 50 to child B.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 100,
+    "scope": "root-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "root",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "root",
+      "allocation": 40
+    },
+    {
+      "id": "child-b",
+      "role": "child",
+      "parent_id": "child-a"
+    }
+  ],
+  "events": [
+    {
+      "type": "allocate",
+      "actor_id": "root",
+      "target_id": "child-a",
+      "amount": 40
+    },
+    {
+      "type": "delegate",
+      "actor_id": "child-a",
+      "target_id": "child-b",
+      "amount": 50
+    }
+  ],
+  "expected_invariants": [
+    "Child delegation cannot exceed the delegator's unspent and delegable allocation unless an explicit parent-authorized reallocation occurs."
+  ],
+  "failure_mode": "Nested delegation silently expands child A's 40-unit budget to 50.",
+  "notes": "Draft."
+}
