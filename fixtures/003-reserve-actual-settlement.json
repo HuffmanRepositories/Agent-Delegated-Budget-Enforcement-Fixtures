@@ -1,0 +1,48 @@
+{
+  "id": "DBEF-003",
+  "title": "Reservation exceeds actual usage",
+  "category": "reservation-settlement",
+  "status": "draft",
+  "synthetic": true,
+  "description": "A child reserves 30 units, consumes 18, then reports completion.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 100,
+    "scope": "parent-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "reserve",
+      "actor_id": "child-a",
+      "amount": 30
+    },
+    {
+      "type": "usage_commit",
+      "actor_id": "child-a",
+      "amount": 18
+    },
+    {
+      "type": "settle",
+      "actor_id": "child-a",
+      "reserved": 30,
+      "actual": 18
+    }
+  ],
+  "expected_invariants": [
+    "Settlement reconciles the reservation with committed usage and exposes 12 units as available only once the applicable policy permits release."
+  ],
+  "failure_mode": "The full 30 remains held forever or the 12-unit remainder is released twice.",
+  "notes": "Does not prescribe whether release is immediate."
+}
