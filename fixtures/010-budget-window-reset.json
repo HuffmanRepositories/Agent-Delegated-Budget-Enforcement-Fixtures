@@ -1,0 +1,49 @@
+{
+  "id": "DBEF-010",
+  "title": "Child usage crosses parent budget window reset",
+  "category": "window-boundary",
+  "status": "draft",
+  "synthetic": true,
+  "description": "A child reservation begins near a parent window reset and usage completes after the reset.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 40,
+    "scope": "parent-tree",
+    "window": "period-W1 then W2"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "reserve",
+      "actor_id": "child-a",
+      "amount": 30,
+      "window": "W1"
+    },
+    {
+      "type": "window_reset",
+      "actor_id": "parent",
+      "window": "W2"
+    },
+    {
+      "type": "usage_commit",
+      "actor_id": "child-a",
+      "amount": 30,
+      "window": "W2"
+    }
+  ],
+  "expected_invariants": [
+    "Window assignment for reservations and subsequent usage is explicit; reset must not create unintended double capacity."
+  ],
+  "failure_mode": "Same reservation is counted against neither window or grants overlapping capacity without policy.",
+  "notes": "Window carryover behavior is implementation-specific."
+}
