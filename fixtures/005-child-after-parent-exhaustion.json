@@ -1,0 +1,42 @@
+{
+  "id": "DBEF-005",
+  "title": "Child spends after parent budget exhaustion",
+  "category": "revocation-exhaustion",
+  "status": "draft",
+  "synthetic": true,
+  "description": "Parent budget reaches its limit while child A has a task in progress and requests additional work.",
+  "budget": {
+    "unit": "illustrative-credit",
+    "limit": 50,
+    "scope": "parent-tree",
+    "window": "single-run"
+  },
+  "actors": [
+    {
+      "id": "parent",
+      "role": "parent"
+    },
+    {
+      "id": "child-a",
+      "role": "child",
+      "parent_id": "parent"
+    }
+  ],
+  "events": [
+    {
+      "type": "usage_commit",
+      "actor_id": "child-a",
+      "amount": 50
+    },
+    {
+      "type": "request_additional",
+      "actor_id": "child-a",
+      "amount": 5
+    }
+  ],
+  "expected_invariants": [
+    "The policy for in-flight work and additional spending after exhaustion is explicit and enforced consistently."
+  ],
+  "failure_mode": "Child is allowed to commit additional usage beyond parent limit without policy or authorization.",
+  "notes": "Some systems may allow already-authorized in-flight work; define policy."
+}
