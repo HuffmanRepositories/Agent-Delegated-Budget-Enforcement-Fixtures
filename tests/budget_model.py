@@ -80,8 +80,8 @@ class BudgetLedger:
             return "reserved"
 
     def settle(self, account_id, key, actual):
-        if actual < 0:
-            raise ValueError("actual usage cannot be negative")
+        if type(actual) is not int or actual < 0:
+            raise ValueError("actual usage must be a non-negative integer")
         with self._connect() as db:
             db.execute("BEGIN IMMEDIATE")
             reservation=db.execute("SELECT amount,status,actual FROM reservations WHERE account_id=? AND idem_key=?",
